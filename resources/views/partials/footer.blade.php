@@ -3,7 +3,7 @@
         <div class="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
             <div>
                 <div class="flex items-center gap-2">
-                    <img src="{{ asset('assets/logo_bulat.png') }}" alt="Bank Soal UT By Shofia" class="h-9 w-9 rounded-full object-cover">
+                    <img src="{{ asset('assets/logo_bulat.png') }}" alt="Bank Soal UT By Shofia" class="h-12 w-12 rounded-full object-cover">
                     <span class="font-extrabold text-slate-900">Bank Soal UT <span class="text-blue-600">By Shofia</span></span>
                 </div>
                 <p class="mt-3 text-sm text-slate-500">

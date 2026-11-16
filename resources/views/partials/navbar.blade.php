@@ -7,7 +7,7 @@
 
             {{-- Logo --}}
             <a href="{{ route('catalog.index') }}" class="flex items-center gap-2 shrink-0">
-                <img src="{{ asset('assets/logo_bulat.png') }}" alt="Bank Soal UT By Shofia" class="h-9 w-9 rounded-full object-cover ring-2 ring-blue-100">
+                <img src="{{ asset('assets/logo_bulat.png') }}" alt="Bank Soal UT By Shofia" class="h-12 w-12 rounded-full object-cover ring-2 ring-blue-100">
                 <span class="font-extrabold text-slate-900">Bank Soal UT <span class="text-blue-600">By Shofia</span></span>
             </a>
 
