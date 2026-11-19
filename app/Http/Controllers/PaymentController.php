@@ -28,7 +28,7 @@ class PaymentController extends Controller
         $rules = [
             'course_ids' => ['required', 'array', 'min:1'],
             'course_ids.*' => ['required', 'integer', 'exists:courses,id'],
-            'payment_method' => ['required', 'in:finpay,manual_transfer'],
+            'payment_method' => ['required', 'in:finpay'],
         ];
 
         // Guest checkout wajib menyertakan data kontak.
@@ -58,23 +58,9 @@ class PaymentController extends Controller
             }
         }
 
-        if ($data['payment_method'] === 'manual_transfer') {
-            return redirect()->route('payment.manual', ['order' => $order->id]);
-        }
-
         $result = $this->finpay->initiatePayment($order);
 
         return redirect()->to($result['redirect_url']);
-    }
-
-    /**
-     * Halaman instruksi pembayaran manual (transfer / QRIS).
-     */
-    public function manual(Request $request)
-    {
-        $order = Order::with('items.course')->findOrFail($request->integer('order'));
-
-        return view('payment.manual', compact('order'));
     }
 
     /**

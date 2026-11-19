@@ -35,7 +35,6 @@ Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.in
 Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout.store');
 Route::post('/finpay/callback', [PaymentController::class, 'callback'])->name('finpay.callback');
 Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
-Route::get('/payment/manual', [PaymentController::class, 'manual'])->name('payment.manual');
 
 // Download PDF (watermark)
 Route::get('/courses/{course}/download', [DownloadController::class, 'download'])

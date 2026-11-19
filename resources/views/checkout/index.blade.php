@@ -59,19 +59,19 @@
 
                     <div class="mt-6">
                         <label class="mb-2 block text-sm font-semibold text-slate-700">Metode Pembayaran</label>
-                        <input type="hidden" name="payment_method" value="manual_transfer">
-                        <div class="flex items-center gap-3 rounded-xl border border-blue-300 bg-blue-50/50 p-4">
+                        <input type="hidden" name="payment_method" value="finpay">
+                        <div class="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 shrink-0 text-blue-600"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" /></svg>
                             <div>
-                                <p class="text-sm font-semibold text-slate-800">Transfer Manual (Rekening / QRIS)</p>
-                                <p class="text-xs text-slate-500">Transfer ke rekening / QRIS, lalu kirim bukti transfer untuk verifikasi.</p>
+                                <p class="text-sm font-semibold text-slate-800">FinPay (Pembayaran Online)</p>
+                                <p class="text-xs text-slate-500">Pembayaran online otomatis &amp; terverifikasi.</p>
                             </div>
                         </div>
                     </div>
 
                     <button type="submit"
                         class="mt-6 w-full rounded-xl bg-blue-600 px-4 py-3 font-semibold text-white shadow-sm transition-all duration-300 hover:bg-blue-700">
-                        Buat Pesanan &amp; Lihat Instruksi Transfer
+                        Lanjut ke Pembayaran
                     </button>
                 </form>
             </div>
