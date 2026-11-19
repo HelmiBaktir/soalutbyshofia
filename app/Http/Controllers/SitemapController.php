@@ -19,7 +19,7 @@ class SitemapController extends Controller
             ['loc' => route('register'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'yearly', 'priority' => '0.4'],
         ];
 
-        foreach (Course::query()->orderBy('code')->get(['code', 'updated_at']) as $course) {
+        foreach (Course::query()->orderBy('code')->get(['id', 'code', 'updated_at']) as $course) {
             $urls[] = [
                 'loc' => route('catalog.show', $course),
                 'lastmod' => $course->updated_at->toAtomString(),
