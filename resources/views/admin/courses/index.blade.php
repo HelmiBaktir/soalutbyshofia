@@ -62,7 +62,7 @@
                             <td class="px-4 py-3 font-semibold text-slate-800">Rp {{ number_format($course->price, 0, ',', '.') }}</td>
                             <td class="px-4 py-3">
                                 @if ($course->files->isNotEmpty())
-                                    <button type="button" @click="previewUrl = '{{ route('admin.courses.preview', $course) }}'; previewTitle = '{{ $course->code }} — {{ $course->name }}'; preview = true"
+                                    <button type="button" @click="previewUrl = '{{ route('admin.courses.preview-watermark', $course) }}'; previewTitle = '{{ $course->code }} — {{ $course->name }}'; preview = true"
                                         class="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold text-blue-600 transition-colors hover:bg-blue-50">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
                                         Preview
@@ -95,7 +95,7 @@
             <div class="flex items-center justify-between gap-4 border-b border-slate-200 bg-slate-50 px-5 py-4">
                 <div class="min-w-0">
                     <h3 class="truncate font-bold text-slate-900" x-text="previewTitle"></h3>
-                    <p class="mt-0.5 text-xs text-slate-500">Pratinjau dokumen PDF — gunakan scroll untuk membaca seluruh halaman.</p>
+                    <p class="mt-0.5 text-xs text-slate-500">Pratinjau dokumen PDF dengan watermark — gunakan scroll untuk membaca seluruh halaman.</p>
                 </div>
                 <button type="button" @click="preview = false" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm transition-colors hover:bg-slate-100 hover:text-slate-700">&times;</button>
             </div>
