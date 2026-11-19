@@ -50,7 +50,11 @@ class OrderController extends Controller
 
         $email = $order->user?->email ?? $order->guest_email;
         if ($email) {
-            Mail::to($email)->send(new PaymentSuccessMail($order->fresh()));
+            try {
+                Mail::to($email)->send(new PaymentSuccessMail($order->fresh()));
+            } catch (\Throwable $e) {
+                report($e);
+            }
         }
 
         return back()->with('status', 'Order dikonfirmasi & akses diberikan.');

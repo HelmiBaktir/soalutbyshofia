@@ -51,7 +51,11 @@ class PaymentController extends Controller
 
         // Notifikasi ke pemilik saat ada order baru masuk.
         if ($notifyEmail = config('app.order_notification_email')) {
-            Mail::to($notifyEmail)->send(new OrderPlacedMail($order));
+            try {
+                Mail::to($notifyEmail)->send(new OrderPlacedMail($order));
+            } catch (\Throwable $e) {
+                report($e);
+            }
         }
 
         if ($data['payment_method'] === 'manual_transfer') {
@@ -118,7 +122,11 @@ class PaymentController extends Controller
         $email = $order->user?->email ?? $order->guest_email;
 
         if ($email) {
-            Mail::to($email)->send(new PaymentSuccessMail($order));
+            try {
+                Mail::to($email)->send(new PaymentSuccessMail($order));
+            } catch (\Throwable $e) {
+                report($e);
+            }
         }
     }
 }
