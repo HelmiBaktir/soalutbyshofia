@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Katalog Mata Kuliah - '.config('app.name'))
+@section('title', 'Bank Soal UT & Pembahasan Lengkap | Soal UT By Shofia')
+@section('meta_description', 'Kumpulan bank soal & latihan soal Universitas Terbuka lengkap dengan pembahasan. Beli, download PDF, dan belajar kapan saja.')
 
 @section('content')
 
@@ -121,14 +122,10 @@
                 class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
 
                 {{-- Cover --}}
-                <a href="{{ route('catalog.show', $course) }}" class="relative block h-44 overflow-hidden bg-gradient-to-br {{ $gradient }}">
-                    @if ($course->image)
-                        <img src="{{ asset('storage/'.$course->image) }}" alt="{{ $course->name }}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
-                    @else
-                        <div class="flex h-full w-full items-center justify-center">
-                            <img src="{{ asset('assets/logo_bulat.png') }}" alt="Bank Soal UT By Shofia" class="h-24 w-24 rounded-full object-cover shadow-lg">
-                        </div>
-                    @endif
+                <a href="{{ route('catalog.show', $course) }}" class="relative block h-44 overflow-hidden bg-white">
+                    <div class="flex h-full w-full items-center justify-center">
+                        <img src="{{ asset('assets/logo_ut.png') }}" alt="Universitas Terbuka" class="h-24 w-24 object-contain transition-transform duration-500 group-hover:scale-105">
+                    </div>
                     <span class="absolute left-3 top-3 rounded-md bg-black/50 px-2 py-0.5 text-xs font-bold text-white">{{ $course->code }}</span>
                     @if ($course->is_bundle)
                         <span class="absolute right-3 top-3 rounded-full bg-amber-400 px-2 py-0.5 text-[11px] font-bold text-amber-900">Bundle</span>

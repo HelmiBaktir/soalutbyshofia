@@ -36,6 +36,9 @@
                     const blob = await resp.blob();
                     this.previewUrl = URL.createObjectURL(blob);
                     this.isWatermarked = true;
+                } else {
+                    this.previewUrl = URL.createObjectURL(file);
+                    this.isWatermarked = false;
                 }
             } catch (e) {
                 this.previewUrl = URL.createObjectURL(file);
@@ -98,6 +101,16 @@
                         <input type="text" inputmode="numeric" x-model="priceDisplay" @input="formatPrice()" placeholder="contoh: 75.000" class="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none transition-all focus:border-blue-400 focus:ring-2 focus:ring-blue-100" required>
                         <input type="hidden" name="price" :value="priceRaw">
                         <p class="mt-1 text-xs text-slate-400">Pemisah ribuan otomatis, mis. 75.000.</p>
+                    </div>
+                    <div>
+                        <label class="mb-1 block text-sm font-semibold text-slate-700">Jumlah Soal</label>
+                        <input type="number" name="jumlah_soal" value="{{ old('jumlah_soal', $course->jumlah_soal) }}" min="0" placeholder="contoh: 150" class="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none transition-all focus:border-blue-400 focus:ring-2 focus:ring-blue-100">
+                        <p class="mt-1 text-xs text-slate-400">Opsional. Tampil di halaman detail.</p>
+                    </div>
+                    <div>
+                        <label class="mb-1 block text-sm font-semibold text-slate-700">Masa Ujian</label>
+                        <input type="text" name="masa_ujian" value="{{ old('masa_ujian', $course->masa_ujian) }}" placeholder="contoh: 2020.1 – 2024.2" class="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none transition-all focus:border-blue-400 focus:ring-2 focus:ring-blue-100">
+                        <p class="mt-1 text-xs text-slate-400">Opsional. Contoh: 2020–2024.</p>
                     </div>
                     <div class="sm:col-span-2">
                         <label class="mb-1 block text-sm font-semibold text-slate-700">Deskripsi</label>

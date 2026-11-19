@@ -19,6 +19,8 @@ class Course extends Model
         'semester',
         'price',
         'description',
+        'jumlah_soal',
+        'masa_ujian',
         'image',
         'is_bundle',
     ];
@@ -32,6 +34,7 @@ class Course extends Model
     {
         return [
             'price' => 'integer',
+            'jumlah_soal' => 'integer',
             'is_bundle' => 'boolean',
         ];
     }

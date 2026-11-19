@@ -5,7 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="{{ asset('assets/logo_bulat.png') }}">
-    <title>@yield('title', 'Bank Soal UT By Shofia')</title>
+
+    @if (config('app.google_site_verification'))
+        <meta name="google-site-verification" content="{{ config('app.google_site_verification') }}">
+    @endif
+
+    <title>@yield('title', 'Bank Soal UT & Pembahasan Lengkap | Soal UT By Shofia')</title>
+    <meta name="description" content="@yield('meta_description', 'Bank soal & latihan soal Universitas Terbuka lengkap dengan pembahasan. Beli, download PDF, dan belajar kapan saja.')">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Soal UT By Shofia">
+    <meta property="og:title" content="@yield('title', 'Bank Soal UT & Pembahasan Lengkap | Soal UT By Shofia')">
+    <meta property="og:description" content="@yield('meta_description', 'Bank soal & latihan soal Universitas Terbuka lengkap dengan pembahasan. Beli, download PDF, dan belajar kapan saja.')">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta name="twitter:card" content="summary">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

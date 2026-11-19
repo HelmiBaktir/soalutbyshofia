@@ -39,6 +39,9 @@
                 <p class="mt-3 text-sm text-slate-500">
                     Hubungi kami via WhatsApp untuk pertanyaan seputar produk & pembelian.
                 </p>
+                <a href="https://wa.me/6285749734405" target="_blank" rel="noopener" class="mt-2 inline-block text-sm font-semibold text-emerald-600 transition-colors hover:text-emerald-700">
+                    0857-4973-4405
+                </a>
             </div>
         </div>
 

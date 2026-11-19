@@ -9,7 +9,7 @@
         <p class="mt-2 text-slate-500">Ada pertanyaan seputar produk, pembelian, atau akses download? Kami siap membantu.</p>
 
         <div class="mt-8 grid gap-4 sm:grid-cols-2">
-            <a href="https://wa.me/6281234567890" target="_blank" rel="noopener"
+            <a href="https://wa.me/6285749734405" target="_blank" rel="noopener"
                 class="flex items-center gap-4 rounded-xl border border-slate-200 p-5 transition-all duration-300 hover:border-emerald-300 hover:shadow-md">
                 <span class="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
@@ -18,7 +18,7 @@
                 </span>
                 <div>
                     <p class="font-bold text-slate-900">WhatsApp</p>
-                    <p class="text-sm text-slate-500">Chat cepat (jam kerja)</p>
+                    <p class="text-sm text-slate-500">0857-4973-4405</p>
                 </div>
             </a>
 

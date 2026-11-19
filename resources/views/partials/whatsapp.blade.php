@@ -1,5 +1,5 @@
 {{-- Ganti nomor di bawah dengan nomor WhatsApp bisnis (format internasional tanpa +). --}}
-@php($whatsappNumber = '6281234567890')
+@php($whatsappNumber = '6285749734405')
 
 <a href="https://wa.me/{{ $whatsappNumber }}?text={{ urlencode('Halo, saya ingin bertanya tentang latihan soal UT.') }}"
    target="_blank" rel="noopener"

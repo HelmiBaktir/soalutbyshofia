@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderPlacedMail;
 use App\Mail\PaymentSuccessMail;
 use App\Models\Order;
 use App\Services\CheckoutService;
@@ -48,9 +49,28 @@ class PaymentController extends Controller
 
         $order = $this->checkout->createOrder($request->user(), $guest, $data['course_ids']);
 
+        // Notifikasi ke pemilik saat ada order baru masuk.
+        if ($notifyEmail = config('app.order_notification_email')) {
+            Mail::to($notifyEmail)->send(new OrderPlacedMail($order));
+        }
+
+        if ($data['payment_method'] === 'manual_transfer') {
+            return redirect()->route('payment.manual', ['order' => $order->id]);
+        }
+
         $result = $this->finpay->initiatePayment($order);
 
         return redirect()->to($result['redirect_url']);
+    }
+
+    /**
+     * Halaman instruksi pembayaran manual (transfer / QRIS).
+     */
+    public function manual(Request $request)
+    {
+        $order = Order::with('items.course')->findOrFail($request->integer('order'));
+
+        return view('payment.manual', compact('order'));
     }
 
     /**

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', $course->name.' - '.config('app.name'))
+@section('title', 'Soal '.$course->code.' '.$course->name.' + Pembahasan – Universitas Terbuka')
+@section('meta_description', 'Soal '.$course->code.' '.$course->name.' + pembahasan lengkap – Universitas Terbuka. Beli & download PDF bank soal UT dengan pembahasan.')
 
 @section('content')
 <div class="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
@@ -15,21 +16,42 @@
         {{-- Info utama --}}
         <div class="lg:col-span-2">
             <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-                <div class="flex flex-wrap items-center gap-2">
-                    <span class="rounded-md bg-blue-50 px-2.5 py-1 text-xs font-bold text-blue-600">{{ $course->code }}</span>
-                    @if ($course->semester)
-                        <span class="rounded-md bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">Semester {{ $course->semester }}</span>
-                    @endif
-                    @if ($course->is_bundle)
-                        <span class="rounded-md bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-600">Bundle</span>
-                    @endif
+                <div class="flex items-center gap-4">
+                    <img src="{{ asset('assets/logo_ut.png') }}" alt="Universitas Terbuka" class="h-16 w-16 shrink-0 object-contain">
+                    <div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="rounded-md bg-blue-50 px-2.5 py-1 text-xs font-bold text-blue-600">{{ $course->code }}</span>
+                            @if ($course->semester)
+                                <span class="rounded-md bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">Semester {{ $course->semester }}</span>
+                            @endif
+                            @if ($course->is_bundle)
+                                <span class="rounded-md bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-600">Bundle</span>
+                            @endif
+                        </div>
+                        <h1 class="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">{{ $course->name }}</h1>
+                        <p class="mt-1 text-sm font-medium text-slate-500">Program Studi: {{ $course->prodi }}</p>
+                    </div>
                 </div>
-
-                <h1 class="mt-4 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">{{ $course->name }}</h1>
-                <p class="mt-1 text-sm font-medium text-slate-500">Program Studi: {{ $course->prodi }}</p>
 
                 @if ($course->description)
                     <p class="mt-5 leading-relaxed text-slate-600">{{ $course->description }}</p>
+                @endif
+
+                @if ($course->jumlah_soal || $course->masa_ujian)
+                    <div class="mt-5 grid gap-3 sm:grid-cols-2">
+                        @if ($course->jumlah_soal)
+                            <div class="rounded-xl bg-blue-50 px-4 py-3">
+                                <p class="text-xs font-semibold uppercase tracking-wide text-blue-500">Jumlah Soal</p>
+                                <p class="mt-1 text-lg font-extrabold text-blue-700">{{ number_format($course->jumlah_soal, 0, ',', '.') }} soal</p>
+                            </div>
+                        @endif
+                        @if ($course->masa_ujian)
+                            <div class="rounded-xl bg-emerald-50 px-4 py-3">
+                                <p class="text-xs font-semibold uppercase tracking-wide text-emerald-500">Masa Ujian</p>
+                                <p class="mt-1 text-lg font-extrabold text-emerald-700">{{ $course->masa_ujian }}</p>
+                            </div>
+                        @endif
+                    </div>
                 @endif
             </div>
         </div>

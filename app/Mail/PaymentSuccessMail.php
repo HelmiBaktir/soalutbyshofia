@@ -29,7 +29,7 @@ class PaymentSuccessMail extends Mailable
         return new Content(
             view: 'emails.payment-success',
             with: [
-                'order' => $this->order->load('items.course'),
+                'order' => $this->order->load('items.course', 'entitlements.course'),
             ],
         );
     }

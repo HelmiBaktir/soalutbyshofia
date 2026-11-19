@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\PaymentSuccessMail;
 use App\Models\Order;
 use App\Services\CheckoutService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -44,6 +46,11 @@ class OrderController extends Controller
     {
         if ($order->status !== 'paid') {
             $checkout->markAsPaid($order, 'MANUAL-'.$order->id);
+        }
+
+        $email = $order->user?->email ?? $order->guest_email;
+        if ($email) {
+            Mail::to($email)->send(new PaymentSuccessMail($order->fresh()));
         }
 
         return back()->with('status', 'Order dikonfirmasi & akses diberikan.');

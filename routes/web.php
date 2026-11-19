@@ -12,10 +12,14 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 
 // Landing page template (hero section)
 Route::view('/landing', 'landing')->name('landing');
+
+// SEO sitemap
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 // Katalog
 Route::get('/', [CatalogController::class, 'index'])->name('catalog.index');
@@ -31,6 +35,7 @@ Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.in
 Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout.store');
 Route::post('/finpay/callback', [PaymentController::class, 'callback'])->name('finpay.callback');
 Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+Route::get('/payment/manual', [PaymentController::class, 'manual'])->name('payment.manual');
 
 // Download PDF (watermark)
 Route::get('/courses/{course}/download', [DownloadController::class, 'download'])

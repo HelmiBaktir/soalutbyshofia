@@ -129,6 +129,8 @@ class CourseController extends Controller
             'semester' => ['nullable', 'string', 'max:20'],
             'price' => ['required', 'integer', 'min:0'],
             'description' => ['nullable', 'string'],
+            'jumlah_soal' => ['nullable', 'integer', 'min:0'],
+            'masa_ujian' => ['nullable', 'string', 'max:255'],
             'is_bundle' => ['sometimes', 'boolean'],
         ]);
     }
