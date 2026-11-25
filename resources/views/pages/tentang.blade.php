@@ -36,7 +36,7 @@
 
         <div class="relative flex items-center justify-center animate-fade-in-right delay-200">
             <div class="absolute h-72 w-72 rounded-full bg-white/20 blur-2xl animate-pulse-soft"></div>
-            <img src="{{ asset('assets/assets_dasboard.png') }}" alt="Ilustrasi belajar soal UT" class="relative z-10 max-h-80 w-auto object-contain animate-float drop-shadow-2xl">
+            <img src="{{ asset('assets/assets_aboutus.png') }}" alt="Ilustrasi belajar soal UT" class="relative z-10 max-h-80 w-auto object-contain animate-float drop-shadow-2xl">
             <div class="absolute left-0 top-8 z-20 rounded-2xl bg-white px-4 py-2.5 shadow-xl animate-float" style="animation-delay: 0.8s;">
                 <p class="text-xs font-bold text-slate-800">📄 1 PDF / Mata Kuliah</p>
             </div>
