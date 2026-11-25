@@ -81,9 +81,52 @@
                 cart.classList.add('cart-shake');
             }, 1250);
 
-            setTimeout(() => form.submit(), 1300);
+            // Tambah ke keranjang via AJAX (tanpa refresh halaman)
+            const csrf = document.querySelector('meta[name="csrf-token"]').content;
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrf,
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                credentials: 'same-origin',
+            })
+            .then(resp => {
+                if (resp.status === 401) {
+                    return resp.json().then(d => { window.location.href = (d && d.redirect) || '/login'; return null; });
+                }
+                return resp.json();
+            })
+            .then(data => {
+                if (data && typeof data.count === 'number') {
+                    updateCartBadge(data.count);
+                    showCartToast(data.message || 'Ditambahkan ke keranjang');
+                }
+            })
+            .catch(() => {});
 
             return false;
+        }
+
+        function updateCartBadge(count) {
+            const badge = document.getElementById('cart-count');
+            if (!badge) return;
+            badge.textContent = count;
+            badge.classList.toggle('hidden', count <= 0);
+        }
+
+        function showCartToast(message) {
+            const toast = document.getElementById('cart-toast');
+            if (!toast) return;
+            toast.textContent = message;
+            toast.classList.remove('opacity-0', 'translate-y-1');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            clearTimeout(window.__cartToastTimer);
+            window.__cartToastTimer = setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-1');
+                toast.classList.remove('opacity-100', 'translate-y-0');
+            }, 2500);
         }
     </script>
 </head>

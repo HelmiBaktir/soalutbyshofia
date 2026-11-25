@@ -80,8 +80,8 @@
     <div class="mt-3 rounded-2xl border border-blue-200 bg-blue-50 p-4 text-sm text-blue-700">
         <p class="font-semibold">Apa yang terjadi saat klik "Lanjut ke Checkout"?</p>
         <p class="mt-1">
-            Anda akan diarahkan ke halaman checkout untuk memilih metode pembayaran:
-            <strong>FinPay (otomatis)</strong> atau <strong>Transfer Manual</strong>.
+            Anda akan diarahkan ke halaman checkout untuk menyelesaikan pembayaran
+            secara online melalui <strong>FinPay</strong>.
             Setelah pembayaran dikonfirmasi, akses download PDF langsung aktif.
         </p>
     </div>
