@@ -14,23 +14,34 @@ class CourseController extends Controller
 {
     public function index(Request $request)
     {
-        $courses = Course::with('files')
+        $perPage = $request->query('per_page', '20');
+
+        if (! in_array($perPage, ['20', '50', '100', 'all'], true)) {
+            $perPage = '20';
+        }
+
+        $query = Course::with('files')
             ->when($search = trim((string) $request->query('search')), function ($q) use ($search) {
                 $q->where(function ($w) use ($search) {
                     $w->where('code', 'ilike', "%{$search}%")
                         ->orWhere('name', 'ilike', "%{$search}%");
                 });
             })
-            ->when($request->query('prodi'), fn ($q, $prodi) => $q->where('prodi', $prodi))
-            ->get()
-            ->sortBy(fn ($c) => strtolower($c->prodi).sprintf('%03d', (int) $c->semester))
-            ->groupBy('prodi');
+            ->when($request->query('prodi'), fn ($q, $prodi) => $q->where('prodi', $prodi));
 
-        $totalCourses = $courses->flatten()->count();
+        $totalCourses = $query->count();
+
+        if ($perPage === 'all') {
+            $courses = $query->orderBy('prodi')->orderBy('code')->get();
+            $paginated = false;
+        } else {
+            $courses = $query->orderBy('prodi')->orderBy('code')->paginate((int) $perPage)->withQueryString();
+            $paginated = true;
+        }
 
         $prodis = Course::query()->distinct()->orderBy('prodi')->pluck('prodi');
 
-        return view('admin.courses.index', compact('courses', 'prodis', 'totalCourses'));
+        return view('admin.courses.index', compact('courses', 'prodis', 'totalCourses', 'perPage', 'paginated'));
     }
 
     public function create()
