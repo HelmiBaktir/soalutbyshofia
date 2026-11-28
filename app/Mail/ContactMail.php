@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -20,7 +21,7 @@ class ContactMail extends Mailable
     {
         return new Envelope(
             subject: 'Pesan Kontak dari '.($this->data['name'] ?? 'Pengunjung').' - '.config('app.name'),
-            replyTo: [$this->data['email'] => $this->data['name']],
+            replyTo: [new Address($this->data['email'], $this->data['name'])],
         );
     }
 
