@@ -17,7 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->validateCsrfTokens(except: [
-            'finpay/callback',
+            'payment/duitku/callback',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -81,7 +81,7 @@
         <p class="font-semibold">Apa yang terjadi saat klik "Lanjut ke Checkout"?</p>
         <p class="mt-1">
             Anda akan diarahkan ke halaman checkout untuk menyelesaikan pembayaran
-            secara online melalui <strong>FinPay</strong>.
+            secara online melalui <strong>Duitku</strong>.
             Setelah pembayaran dikonfirmasi, akses download PDF langsung aktif.
         </p>
     </div>

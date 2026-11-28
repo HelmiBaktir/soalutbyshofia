@@ -51,7 +51,7 @@ class CheckoutService
             'guest_phone' => $user ? null : ($guest['phone'] ?? null),
             'total_amount' => $courses->sum('price'),
             'status' => 'pending',
-            'payment_method' => $guest['payment_method'] ?? 'finpay',
+            'payment_method' => $guest['payment_method'] ?? 'duitku',
             'expires_at' => now()->addDay(),
         ]);
 

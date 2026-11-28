@@ -6,7 +6,7 @@ use App\Mail\OrderPlacedMail;
 use App\Mail\PaymentSuccessMail;
 use App\Models\Order;
 use App\Services\CheckoutService;
-use App\Services\FinpayService;
+use App\Services\DuitkuService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,19 +16,19 @@ class PaymentController extends Controller
 {
     public function __construct(
         private readonly CheckoutService $checkout,
-        private readonly FinpayService $finpay,
+        private readonly DuitkuService $duitku,
     ) {
     }
 
     /**
-     * Proses checkout: buat order pending, lalu arahkan ke FinPay.
+     * Proses checkout: buat order pending, lalu arahkan ke Duitku.
      */
     public function checkout(Request $request): RedirectResponse
     {
         $rules = [
             'course_ids' => ['required', 'array', 'min:1'],
             'course_ids.*' => ['required', 'integer', 'exists:courses,id'],
-            'payment_method' => ['required', 'in:finpay'],
+            'payment_method' => ['required', 'in:duitku'],
         ];
 
         // Guest checkout wajib menyertakan data kontak.
@@ -58,34 +58,35 @@ class PaymentController extends Controller
             }
         }
 
-        $result = $this->finpay->initiatePayment($order);
+        $result = $this->duitku->createInvoice($order);
 
-        return redirect()->to($result['redirect_url']);
+        return redirect()->to($result['payment_url']);
     }
 
     /**
-     * Callback / webhook dari FinPay.
+     * Callback / webhook dari Duitku.
      */
-    public function callback(Request $request): JsonResponse
+    public function duitkuCallback(Request $request): JsonResponse
     {
-        $result = $this->finpay->verifyPayment($request->all());
+        $payload = $request->all();
 
-        $order = Order::find($result['order_id']);
-
-        if (! $order && $result['payment_reference']) {
-            $order = Order::where('payment_reference', $result['payment_reference'])->first();
+        if (! $this->duitku->verifyCallback($payload)) {
+            return response()->json(['status' => 'error', 'message' => 'Invalid signature'], 401);
         }
+
+        $order = Order::find($payload['merchantOrderId'] ?? null);
 
         if (! $order) {
-            return response()->json(['status' => 'error', 'message' => 'Order tidak ditemukan.'], 404);
+            return response()->json(['status' => 'error', 'message' => 'Order tidak ditemukan'], 404);
         }
 
-        if ($result['status'] === 'success') {
-            $this->handleSuccess($order, $result['payment_reference']);
-        } elseif ($result['status'] === 'failed') {
+        $resultCode = (string) ($payload['resultCode'] ?? '');
+
+        // 00 = sukses, 02 = gagal/batal.
+        if ($resultCode === '00') {
+            $this->handleSuccess($order, $payload['reference'] ?? null);
+        } elseif ($resultCode === '02') {
             $this->checkout->markAsFailed($order);
-        } elseif ($result['status'] === 'expired') {
-            $this->checkout->markAsExpired($order);
         }
 
         return response()->json(['status' => 'ok']);

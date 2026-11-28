@@ -34,7 +34,7 @@ Route::delete('/cart/{course}', [CartController::class, 'remove'])->name('cart.r
 // Checkout & pembayaran
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout.store');
-Route::post('/finpay/callback', [PaymentController::class, 'callback'])->name('finpay.callback');
+Route::post('/payment/duitku/callback', [PaymentController::class, 'duitkuCallback'])->name('payment.duitku.callback');
 Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
 
 // Download PDF (watermark)
