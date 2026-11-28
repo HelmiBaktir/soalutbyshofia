@@ -18,7 +18,7 @@
                 </span>
                 <div>
                     <p class="font-bold text-slate-900">WhatsApp</p>
-                    <p class="text-sm text-slate-500">0857-4973-4405</p>
+                    <p class="text-sm text-slate-500">Chat dengan kami</p>
                 </div>
             </a>
 

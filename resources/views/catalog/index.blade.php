@@ -171,8 +171,6 @@
         @endforelse
     </div>
 
-    <div class="mt-8">
-        {{ $courses->links() }}
-    </div>
+    {{ $courses->links('pagination.catalog') }}
 </div>
 @endsection
