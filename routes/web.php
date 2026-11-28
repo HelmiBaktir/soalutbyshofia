@@ -67,6 +67,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('courses/{course}/preview', [AdminCourseController::class, 'preview'])->name('courses.preview');
     Route::get('courses/{course}/preview-watermark', [AdminCourseController::class, 'previewWatermark'])->name('courses.preview-watermark');
     Route::post('courses/preview-upload', [AdminCourseController::class, 'previewUpload'])->name('courses.preview-upload');
+    Route::get('courses/export', [AdminCourseController::class, 'export'])->name('courses.export');
+    Route::post('courses/import', [AdminCourseController::class, 'import'])->name('courses.import');
     Route::get('orders', [AdminOrderController::class, 'index'])->name('orders.index');
     Route::get('orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
     Route::post('orders/{order}/confirm', [AdminOrderController::class, 'confirm'])->name('orders.confirm');

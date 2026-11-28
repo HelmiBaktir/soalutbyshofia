@@ -70,6 +70,129 @@ class CourseController extends Controller
         return redirect()->route('admin.courses.index')->with('status', 'Mata kuliah dihapus.');
     }
 
+    public function export()
+    {
+        $courses = Course::query()->orderBy('code')->get(['code', 'name', 'prodi', 'semester', 'price', 'jumlah_soal', 'masa_ujian']);
+
+        $fileName = 'mata-kuliah-'.now()->format('Ymd-His').'.csv';
+
+        $headers = [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="'.$fileName.'"',
+        ];
+
+        return response()->stream(function () use ($courses) {
+            $out = fopen('php://output', 'w');
+            fwrite($out, "\xEF\xBB\xBF"); // UTF-8 BOM agar Excel membaca huruf dengan benar
+            fputcsv($out, ['code', 'name', 'prodi', 'semester', 'price', 'jumlah_soal', 'masa_ujian']);
+
+            foreach ($courses as $c) {
+                fputcsv($out, [
+                    $c->code,
+                    $c->name,
+                    $c->prodi,
+                    $c->semester,
+                    (string) $c->price,
+                    (string) $c->jumlah_soal,
+                    $c->masa_ujian,
+                ]);
+            }
+
+            fclose($out);
+        }, 200, $headers);
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate(['file' => ['required', 'file', 'mimes:csv,txt', 'max:5120']]);
+
+        $handle = fopen($request->file('file')->getRealPath(), 'r');
+
+        if ($handle === false) {
+            return back()->with('status', 'Gagal membuka file CSV.');
+        }
+
+        $header = fgetcsv($handle);
+
+        if ($header === false) {
+            fclose($handle);
+
+            return back()->with('status', 'File CSV kosong.');
+        }
+
+        $header = array_map(fn ($h) => strtolower(trim((string) preg_replace('/^\xEF\xBB\xBF/', '', (string) $h))), $header);
+
+        $codeIndex = array_search('code', $header, true);
+        $priceIndex = array_search('price', $header, true);
+        $nameIndex = array_search('name', $header, true);
+        $prodiIndex = array_search('prodi', $header, true);
+        $semesterIndex = array_search('semester', $header, true);
+        $jumlahIndex = array_search('jumlah_soal', $header, true);
+        $masaIndex = array_search('masa_ujian', $header, true);
+
+        if ($codeIndex === false || $priceIndex === false) {
+            fclose($handle);
+
+            return back()->with('status', 'Kolom "code" dan "price" wajib ada di file CSV.');
+        }
+
+        $updated = 0;
+        $notFound = [];
+
+        while (($row = fgetcsv($handle)) !== false) {
+            $code = strtoupper(trim((string) ($row[$codeIndex] ?? '')));
+
+            if ($code === '') {
+                continue;
+            }
+
+            $course = Course::where('code', $code)->first();
+
+            if (! $course) {
+                $notFound[] = $code;
+
+                continue;
+            }
+
+            $data = [
+                'price' => (int) preg_replace('/\D/', '', (string) ($row[$priceIndex] ?? 0)),
+            ];
+
+            if ($nameIndex !== false && trim((string) ($row[$nameIndex] ?? '')) !== '') {
+                $data['name'] = trim((string) $row[$nameIndex]);
+            }
+
+            if ($prodiIndex !== false && trim((string) ($row[$prodiIndex] ?? '')) !== '') {
+                $data['prodi'] = trim((string) $row[$prodiIndex]);
+            }
+
+            if ($semesterIndex !== false && trim((string) ($row[$semesterIndex] ?? '')) !== '') {
+                $data['semester'] = trim((string) $row[$semesterIndex]);
+            }
+
+            if ($jumlahIndex !== false && trim((string) ($row[$jumlahIndex] ?? '')) !== '') {
+                $data['jumlah_soal'] = (int) preg_replace('/\D/', '', (string) $row[$jumlahIndex]);
+            }
+
+            if ($masaIndex !== false && trim((string) ($row[$masaIndex] ?? '')) !== '') {
+                $data['masa_ujian'] = trim((string) $row[$masaIndex]);
+            }
+
+            $course->update($data);
+            $updated++;
+        }
+
+        fclose($handle);
+
+        $message = "Import selesai: {$updated} mata kuliah diperbarui.";
+
+        if (! empty($notFound)) {
+            $message .= ' Kode tidak ditemukan: '.implode(', ', array_slice($notFound, 0, 8)).(count($notFound) > 8 ? ' +'.(count($notFound) - 8).' lagi' : '');
+        }
+
+        return back()->with('status', $message);
+    }
+
     public function preview(Course $course)
     {
         $file = $course->files()->latest()->first();

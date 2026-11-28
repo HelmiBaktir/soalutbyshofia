@@ -54,7 +54,7 @@ class ImportLocalPdfs extends Command
         // ... dst
     ];
 
-    protected int $defaultPrice = 25000;
+    protected int $defaultPrice = 75000;
 
     public function handle(): int
     {

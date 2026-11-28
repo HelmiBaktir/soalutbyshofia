@@ -4,13 +4,31 @@
 
 @section('admin_content')
 <div x-data="{ preview: false, previewUrl: '', previewTitle: '', confirmDelete: false, deleteUrl: '' }">
-    <div class="flex items-center justify-between">
+    <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
             <h1 class="text-2xl font-extrabold text-slate-900">Mata Kuliah</h1>
             <p class="mt-1 text-sm text-slate-500">{{ $totalCourses }} mata kuliah.</p>
         </div>
-        <a href="{{ route('admin.courses.create') }}" class="inline-flex items-center gap-1 rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-blue-700">+ Tambah</a>
+        <div class="flex flex-wrap items-center gap-2">
+            <a href="{{ route('admin.courses.export') }}" class="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
+                Export CSV
+            </a>
+            <form action="{{ route('admin.courses.import') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <label class="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-emerald-200 bg-white px-4 py-2 text-sm font-semibold text-emerald-700 shadow-sm transition-all hover:bg-emerald-50">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z" /></svg>
+                    Import CSV
+                    <input type="file" name="file" accept=".csv,text/csv" class="hidden" onchange="this.form.submit()">
+                </label>
+            </form>
+            <a href="{{ route('admin.courses.create') }}" class="inline-flex items-center gap-1 rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-blue-700">+ Tambah</a>
+        </div>
     </div>
+
+    <p class="mt-3 text-xs text-slate-400">
+        💡 <strong>Export CSV</strong> untuk mengubah data (mis. harga) secara massal di Excel, lalu <strong>Import CSV</strong> untuk menyimpan kembali. Kolom: <code>code, name, prodi, semester, price, jumlah_soal, masa_ujian</code>.
+    </p>
 
     <form method="GET" action="{{ route('admin.courses.index') }}" class="mt-5 flex flex-wrap items-center gap-2">
         <input type="search" name="search" value="{{ request('search') }}" placeholder="Cari kode / nama mata kuliah..." class="w-72 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none transition-all focus:border-blue-400 focus:ring-2 focus:ring-blue-100">
