@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\PaymentController;
@@ -58,6 +59,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('aut
 Route::view('/syarat-ketentuan', 'pages.syarat-ketentuan')->name('page.terms');
 Route::view('/kebijakan-refund', 'pages.refund')->name('page.refund');
 Route::view('/kontak', 'pages.kontak')->name('page.contact');
+Route::post('/kontak', [ContactController::class, 'submit'])->name('page.contact.submit');
 Route::view('/tentang-kami', 'pages.tentang')->name('page.about');
 
 // Admin

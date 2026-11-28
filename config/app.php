@@ -131,6 +131,8 @@ return [
 
     'order_notification_email' => env('ADMIN_NOTIFY_EMAIL'),
 
+    'contact_email' => env('CONTACT_EMAIL', 'fikaafizh7@gmail.com'),
+
     'google_site_verification' => env('GOOGLE_SITE_VERIFICATION'),
 
 ];
