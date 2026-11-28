@@ -32,6 +32,10 @@ class CatalogController extends Controller
         $prodis = Course::distinct()->orderBy('prodi')->pluck('prodi');
         $semesters = Course::distinct()->whereNotNull('semester')->orderBy('semester')->pluck('semester');
 
+        if ($request->ajax()) {
+            return view('catalog._list', compact('courses'));
+        }
+
         return view('catalog.index', compact('courses', 'prodis', 'semesters'));
     }
 
